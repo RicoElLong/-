@@ -146,6 +146,7 @@
     .location-map-image{display:block;position:relative;height:430px;overflow:hidden;background:#0b1510}
     .location-map-image img{position:absolute;width:100%;height:auto;max-width:none;top:50%;transform:translateY(-50%)}
     @media(max-width:760px){.location-map-image{height:360px}.location-address{font-size:16px}}
+    .banquet-section{grid-template-columns:1fr}
   </style>
 <link rel="stylesheet" href="assets/home-menu.css">
 </head>
@@ -177,17 +178,7 @@
       <div class="feature"><svg class="feature-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="20" cy="20" r="10"/><circle cx="20" cy="20" r="3"/><path d="M20 3v6m0 22v6M3 20h6m22 0h6M8 8l4 4m16 16 4 4m0-24-4 4m-16 16-4 4"/></svg><span>Атмосфера<b>авантюризма</b></span></div>
     </div></div>
 
-    <section class="split-section" id="menu-preview">
-      <div class="panel menu-panel"><div class="panel-head"><div><h2>Меню</h2><p class="panel-sub">Блюда, которые создают настроение</p></div><a class="text-link" href="#menu">Все меню <span>→</span></a></div>
-        <div class="categories" role="tablist" aria-label="Категории меню"><button class="category active" data-category="all" role="tab" aria-selected="true">Популярное</button><button class="category" data-category="snack" role="tab" aria-selected="false">Закуски</button><button class="category" data-category="salad" role="tab" aria-selected="false">Салаты</button><button class="category" data-category="hot" role="tab" aria-selected="false">Горячие блюда</button><button class="category" data-category="grill" role="tab" aria-selected="false">Блюда на гриле</button><button class="category" data-category="dessert" role="tab" aria-selected="false">Десерты</button><button class="category" data-category="bar" role="tab" aria-selected="false">Бар</button></div>
-        <div class="food-grid">
-          <article class="dish" data-tags="all snack grill"><div class="dish-image"><img loading="lazy" src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?auto=format&fit=crop&w=700&q=82" alt="Креветки на гриле с травами"></div><h3 class="dish-title">Креветки на гриле</h3><div class="dish-note">с чесноком и травами</div><div class="dish-bottom"><span>890 ₽</span><button class="add" aria-label="Добавить креветки">+</button></div></article>
-          <article class="dish" data-tags="all hot grill"><div class="dish-image"><img loading="lazy" src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=700&q=82" alt="Сочный стейк с соусом"></div><h3 class="dish-title">Стейк рибай</h3><div class="dish-note">с перечным соусом</div><div class="dish-bottom"><span>1 690 ₽</span><button class="add" aria-label="Добавить стейк">+</button></div></article>
-          <article class="dish" data-tags="all salad"><div class="dish-image"><img loading="lazy" src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=700&q=82" alt="Буррата с томатами и базиликом"></div><h3 class="dish-title">Буррата</h3><div class="dish-note">с томатами и базиликом</div><div class="dish-bottom"><span>790 ₽</span><button class="add" aria-label="Добавить буррату">+</button></div></article>
-          <article class="dish" data-tags="dessert"><div class="dish-image"><img loading="lazy" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=700&q=82" alt="Шоколадный торт"></div><h3 class="dish-title">Шоколадный торт</h3><div class="dish-note">сезонный десерт</div><div class="dish-bottom"><span>490 ₽</span><button class="add" aria-label="Добавить шоколадный торт">+</button></div></article>
-          <article class="dish" data-tags="bar"><div class="dish-image"><img loading="lazy" src="https://images.unsplash.com/photo-1513558161293-c9a59dd5c4f6?auto=format&fit=crop&w=700&q=82" alt="Освежающий лимонад"></div><h3 class="dish-title">Лимонад домашний</h3><div class="dish-note">цитрус, мята, содовая</div><div class="dish-bottom"><span>390 ₽</span><button class="add" aria-label="Добавить лимонад">+</button></div></article>
-        </div>
-      </div>
+    <section class="split-section banquet-section">
       <div class="panel banquet-panel" id="banquets"><div class="panel-head"><div><h2>Банкеты</h2><p class="panel-sub">Особые события в особом месте</p></div><a class="text-link" href="tel:+79376441344">Все залы <span>→</span></a></div>
         <div class="hall-grid">
           <article class="hall"><div class="hall-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=650&q=82" alt="Панорамная терраса ресторана"></div><div class="hall-info"><h3>Панорамная терраса</h3><div class="hall-meta"><span>♧ до 120 гостей</span><a class="round-arrow" href="tel:+79376441344" aria-label="Позвонить о террасе">↗</a></div><div class="hall-price">от 3 500 ₽ / чел.</div></div></article>
@@ -209,14 +200,6 @@
     const mobileMenu=document.querySelector('.mobile-menu');
     toggle.addEventListener('click',()=>{const open=mobileMenu.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'×':'☰'});
     mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileMenu.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.textContent='☰'}));
-    const categories=[...document.querySelectorAll('.category')];
-    const dishes=[...document.querySelectorAll('.dish')];
-    function filterMenu(selected){dishes.forEach(dish=>{const tags=dish.dataset.tags.split(' ');dish.hidden=selected==='all'?!tags.includes('all'):!tags.includes(selected)})}
-    categories.forEach(button=>button.addEventListener('click',()=>{categories.forEach(item=>{item.classList.remove('active');item.setAttribute('aria-selected','false')});button.classList.add('active');button.setAttribute('aria-selected','true');filterMenu(button.dataset.category)}));filterMenu('all');
-    document.querySelector('[data-show-all]')?.addEventListener('click',()=>document.querySelector('[data-category="all"]').click());
-    const basket=new Map();
-    document.querySelectorAll('.add').forEach(button=>button.addEventListener('click',()=>{const dish=button.closest('.dish'),name=dish.querySelector('.dish-title').textContent;const count=(basket.get(name)||0)+1;basket.set(name,count);button.textContent=String(count);button.setAttribute('aria-label',`Добавлено: ${name}, ${count} шт.`);document.querySelector('#cartStatus').textContent=`${name} добавлено. В заказе ${[...basket.values()].reduce((a,b)=>a+b,0)} поз.`}));
-
     const logo=document.querySelector('.brand-center');
     const reduceLogoMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
     let logoScrollTimer;
@@ -232,7 +215,7 @@
     function updateMasthead(){masthead.classList.toggle('is-scrolled',window.scrollY>16)}
     window.addEventListener('scroll',updateMasthead,{passive:true});updateMasthead();
   </script>
-  <div id="cartStatus" class="sr-only" aria-live="polite"></div>
+
 <script src="assets/menu-data.js"></script><script src="assets/menu.js"></script>
 </body>
 </html>
