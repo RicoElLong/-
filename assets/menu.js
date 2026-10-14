@@ -11,7 +11,7 @@
   const dialog=root.querySelector('#dish-dialog');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   let selected='',filter='all',opener=null;
-  const titles={kitchen:'Меню кухни',grill:'На гриле',dessert:'Десерты',bar:'Меню бара'};
+  const titles={kitchen:'Меню кухни',grill:'На гриле',bar:'Бар',booking:'Бронирование зала'};
   const belongs=(item)=>selected==='kitchen'?item.tags.some(t=>['snack','salad','hot'].includes(t)):item.tags.includes(selected);
   function imageState(image){image.addEventListener('error',()=>image.classList.add('is-unavailable'));image.addEventListener('load',()=>image.classList.remove('is-unavailable'));if(image.complete&&!image.naturalWidth)image.classList.add('is-unavailable')}
   root.querySelectorAll('.panel-photo').forEach(imageState);
@@ -32,13 +32,23 @@
     });
     empty.hidden=items.length>0;status.textContent=`Найдено блюд: ${items.length}`;
   }
+  const bookingDialog=root.querySelector('#booking-dialog');
+  let bookingOpener;
+  let selectionScrollFrame;
+  function openBooking(){cancelAnimationFrame(selectionScrollFrame);window.scrollTo({top:window.scrollY,behavior:'instant'});bookingBackdropPressed=false;bookingOpener=panels.find(p=>p.dataset.section==='booking');bookingOpener.setAttribute('aria-expanded','true');bookingDialog.showModal();document.body.classList.add('dialog-open')}
+  root.querySelector('.booking-close').addEventListener('click',()=>bookingDialog.close());
+  bookingDialog.addEventListener('close',()=>{document.body.classList.remove('dialog-open');bookingOpener?.setAttribute('aria-expanded','false');bookingOpener?.focus({preventScroll:true})});
+  let bookingBackdropPressed=false;
+  bookingDialog.addEventListener('pointerdown',event=>{const r=bookingDialog.getBoundingClientRect();bookingBackdropPressed=event.target===bookingDialog&&(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)});
+  bookingDialog.addEventListener('click',()=>{if(bookingBackdropPressed)bookingDialog.close();bookingBackdropPressed=false});
   function select(key,scroll=true){
+    if(key==='booking'){openBooking();return}
     selected=key;filter='all';search.value='';
     panels.forEach(p=>{const active=p.dataset.section===key;p.classList.toggle('is-selected',active);p.setAttribute('aria-expanded',String(active))});
     filters.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter==='all')));
     root.querySelector('.dish-filters').hidden=key!=='kitchen';heading.textContent=titles[key];section.hidden=false;render();
     history.replaceState(null,'',`#${key}`);
-    if(scroll){requestAnimationFrame(()=>{section.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});heading.focus({preventScroll:true})})}
+    if(scroll){selectionScrollFrame=requestAnimationFrame(()=>{section.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});heading.focus({preventScroll:true})})}
   }
   panels.forEach(p=>p.addEventListener('click',()=>select(p.dataset.section)));
   root.querySelector('.close-selection').addEventListener('click',()=>{const previous=panels.find(p=>p.dataset.section===selected);section.hidden=true;panels.forEach(p=>{p.classList.remove('is-selected');p.setAttribute('aria-expanded','false')});selected='';history.replaceState(null,'',location.pathname+location.search);previous?.focus({preventScroll:true});previous?.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'center'})});
