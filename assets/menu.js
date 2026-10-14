@@ -1,19 +1,20 @@
 (() => {
-  const panels=[...document.querySelectorAll('.menu-panel')];
-  const section=document.querySelector('#selected-menu');
-  const heading=document.querySelector('#selection-heading');
-  const grid=document.querySelector('#dish-grid');
-  const filters=[...document.querySelectorAll('[data-filter]')];
-  const search=document.querySelector('#dish-search');
-  const empty=document.querySelector('.empty-state');
-  const status=document.querySelector('#menu-status');
-  const dialog=document.querySelector('#dish-dialog');
+  const root=document.querySelector('[data-menu-app]')||document;
+  const panels=[...root.querySelectorAll('.menu-panel')];
+  const section=root.querySelector('#selected-menu');
+  const heading=root.querySelector('#selection-heading');
+  const grid=root.querySelector('#dish-grid');
+  const filters=[...root.querySelectorAll('[data-filter]')];
+  const search=root.querySelector('#dish-search');
+  const empty=root.querySelector('.empty-state');
+  const status=root.querySelector('#menu-status');
+  const dialog=root.querySelector('#dish-dialog');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   let selected='',filter='all',opener=null;
   const titles={kitchen:'Меню кухни',grill:'На гриле',dessert:'Десерты',bar:'Меню бара'};
   const belongs=(item)=>selected==='kitchen'?item.tags.some(t=>['snack','salad','hot'].includes(t)):item.tags.includes(selected);
   function imageState(image){image.addEventListener('error',()=>image.classList.add('is-unavailable'));image.addEventListener('load',()=>image.classList.remove('is-unavailable'));if(image.complete&&!image.naturalWidth)image.classList.add('is-unavailable')}
-  document.querySelectorAll('.panel-photo').forEach(imageState);
+  root.querySelectorAll('.panel-photo').forEach(imageState);
   function render(){
     const query=search.value.trim().toLocaleLowerCase('ru');
     const items=menuItems.filter(item=>belongs(item)&&(filter==='all'||item.tags.includes(filter))&&`${item.name} ${item.note}`.toLocaleLowerCase('ru').includes(query));
@@ -35,28 +36,28 @@
     selected=key;filter='all';search.value='';
     panels.forEach(p=>{const active=p.dataset.section===key;p.classList.toggle('is-selected',active);p.setAttribute('aria-expanded',String(active))});
     filters.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter==='all')));
-    document.querySelector('.dish-filters').hidden=key!=='kitchen';heading.textContent=titles[key];section.hidden=false;render();
+    root.querySelector('.dish-filters').hidden=key!=='kitchen';heading.textContent=titles[key];section.hidden=false;render();
     history.replaceState(null,'',`#${key}`);
     if(scroll){requestAnimationFrame(()=>{section.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});heading.focus({preventScroll:true})})}
   }
   panels.forEach(p=>p.addEventListener('click',()=>select(p.dataset.section)));
-  document.querySelector('.close-selection').addEventListener('click',()=>{const previous=panels.find(p=>p.dataset.section===selected);section.hidden=true;panels.forEach(p=>{p.classList.remove('is-selected');p.setAttribute('aria-expanded','false')});selected='';history.replaceState(null,'',location.pathname+location.search);previous?.focus({preventScroll:true});previous?.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'center'})});
+  root.querySelector('.close-selection').addEventListener('click',()=>{const previous=panels.find(p=>p.dataset.section===selected);section.hidden=true;panels.forEach(p=>{p.classList.remove('is-selected');p.setAttribute('aria-expanded','false')});selected='';history.replaceState(null,'',location.pathname+location.search);previous?.focus({preventScroll:true});previous?.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'center'})});
   filters.forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;filters.forEach(f=>f.setAttribute('aria-pressed',String(f===b)));render()}));
   search.addEventListener('input',render);
   function openDish(item,button){
-    opener=button;document.querySelector('#dialog-title').textContent=item.name;document.querySelector('#dialog-note').textContent=item.note;document.querySelector('#dialog-price').textContent=item.price;
-    const image=document.querySelector('#dialog-image');image.classList.remove('is-unavailable');image.hidden=!item.image;image.alt=item.name;if(item.image)image.src=item.image;else image.removeAttribute('src');
+    opener=button;root.querySelector('#dialog-title').textContent=item.name;root.querySelector('#dialog-note').textContent=item.note;root.querySelector('#dialog-price').textContent=item.price;
+    const image=root.querySelector('#dialog-image');image.classList.remove('is-unavailable');image.hidden=!item.image;image.alt=item.name;if(item.image)image.src=item.image;else image.removeAttribute('src');
     dialog.showModal();document.body.classList.add('dialog-open');
   }
-  imageState(document.querySelector('#dialog-image'));
-  document.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
+  imageState(root.querySelector('#dialog-image'));
+  root.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());
   dialog.addEventListener('click',event=>{const r=dialog.getBoundingClientRect();if(event.target===dialog&&(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom))dialog.close()});
   dialog.addEventListener('close',()=>{document.body.classList.remove('dialog-open');opener?.focus({preventScroll:true})});
-  const toggle=document.querySelector('.nav-toggle'),nav=document.querySelector('#mobile-nav');
-  function closeNav(){nav.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.textContent='☰';toggle.setAttribute('aria-label','Открыть навигацию')}
-  toggle.addEventListener('click',()=>{const open=nav.hidden;nav.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'×':'☰';toggle.setAttribute('aria-label',open?'Закрыть навигацию':'Открыть навигацию')});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!nav.hidden){closeNav();toggle.focus()}});
+  const toggle=root.querySelector('.nav-toggle'),nav=root.querySelector('#mobile-nav');
+  function closeNav(){if(!nav||!toggle)return;nav.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.textContent='☰';toggle.setAttribute('aria-label','Открыть навигацию')}
+  toggle?.addEventListener('click',()=>{const open=nav.hidden;nav.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'×':'☰';toggle.setAttribute('aria-label',open?'Закрыть навигацию':'Открыть навигацию')});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav&&!nav.hidden){closeNav();toggle.focus()}});
   window.matchMedia('(min-width: 901px)').addEventListener('change',e=>{if(e.matches)closeNav()});
-  const header=document.querySelector('.menu-header');const updateHeader=()=>header.classList.toggle('is-scrolled',scrollY>16);window.addEventListener('scroll',updateHeader,{passive:true});updateHeader();
+  const header=document.querySelector('.menu-header');const updateHeader=()=>header?.classList.toggle('is-scrolled',scrollY>16);window.addEventListener('scroll',updateHeader,{passive:true});updateHeader();
   const key=location.hash.slice(1);if(titles[key])select(key,false);
 })();
