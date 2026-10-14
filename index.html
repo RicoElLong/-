@@ -147,6 +147,15 @@
     .location-map-image img{position:absolute;width:100%;height:auto;max-width:none;top:50%;transform:translateY(-50%)}
     @media(max-width:760px){.location-map-image{height:360px}.location-address{font-size:16px}}
     .banquet-section{grid-template-columns:1fr}
+
+    /* Larger original artwork; the SVG outlines remain unchanged. */
+    .brand-center{width:410px;flex-basis:410px}
+    .logo-car{width:52%;flex:0 0 52%;image-rendering:auto}
+    .logo-wordmark{width:calc(48% - 14px);flex:0 0 calc(48% - 14px)}
+    @media(min-width:921px) and (max-width:1250px){.brand-center{width:370px;flex-basis:370px}}
+    @media(max-width:920px){.brand-center{width:370px;flex-basis:370px}}
+    @media(max-width:480px){.brand-center{width:calc(100% - 54px);flex:0 1 auto}.logo-wordmark{width:calc(48% - 8px);flex-basis:calc(48% - 8px)}}
+    @media(max-width:480px){.logo-restaurant-restored{font-size:clamp(9px,3.1vw,14px)}}
   </style>
 <link rel="stylesheet" href="assets/home-menu.css">
 </head>
@@ -155,7 +164,7 @@
     <div class="container topbar">
       <a class="brand-center" href="#top" aria-label="Ресторан Дети лейтенанта Шмидта">
         <img class="logo-car" src="assets/logo-car.svg" width="307" height="130" alt="" aria-hidden="true">
-        <svg class="logo-light" viewBox="0 0 440 130" aria-hidden="true"><defs><linearGradient id="headlight-beam"><stop stop-color="#fff2ce" stop-opacity=".55"/><stop offset="1" stop-color="#fff2ce" stop-opacity="0"/></linearGradient></defs><g class="light-rays" fill="url(#headlight-beam)"><path d="M169 69 L430 18 L430 85 Z"/><path d="M172 83 L430 61 L430 127 Z"/></g><g class="headlights" fill="#fff9e4"><ellipse cx="169" cy="69" rx="2.5" ry="2"/><ellipse cx="172" cy="83" rx="2.5" ry="2"/></g></svg>
+        <svg class="logo-light" viewBox="0 0 440 130" aria-hidden="true"><defs><linearGradient id="headlight-beam"><stop stop-color="#fff2ce" stop-opacity=".55"/><stop offset="1" stop-color="#fff2ce" stop-opacity="0"/></linearGradient></defs><g class="light-rays" fill="url(#headlight-beam)"><path d="M190 69 L430 18 L430 85 Z"/><path d="M193 83 L430 61 L430 127 Z"/></g><g class="headlights" fill="#fff9e4"><ellipse cx="190" cy="69" rx="2.5" ry="2"/><ellipse cx="193" cy="83" rx="2.5" ry="2"/></g></svg>
         <span class="logo-wordmark" aria-label="Ресторан Дети лейтенанта Шмидта"><img class="logo-lettering" src="assets/logo-lettering.svg" width="307" height="86" alt=""><span class="logo-restaurant-restored">ресторан</span></span>
       </a>
       <nav class="nav-left" aria-label="Навигация ресторана">
