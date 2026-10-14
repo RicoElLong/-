@@ -123,6 +123,13 @@
     @media(max-width:480px){html{scroll-padding-top:108px}.brand-center{gap:8px}.logo-wordmark{width:calc(54% - 8px)}.logo-wordmark-top{gap:4px}.logo-restaurant{font-size:clamp(12px,3.3vw,16px)}.logo-children{font-size:clamp(27px,7.5vw,36px)}.logo-wordmark-bottom{font-size:clamp(10px,2.9vw,14px)}}
     @media(prefers-reduced-motion:reduce){.topbar-wrap{transition:none!important}}
     .logo-lettering.logo-wordmark{display:block;height:auto;object-fit:contain;filter:brightness(0) invert(90%) sepia(18%) saturate(455%) hue-rotate(348deg) brightness(99%) contrast(87%)}
+
+    @font-face{font-family:'Logo Script';src:url('assets/fonts/marck-script-cyrillic-400-normal.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+    .logo-wordmark{display:block;aspect-ratio:307/86;position:relative}
+    .logo-wordmark .logo-lettering{width:100%;height:100%;filter:brightness(0) invert(90%) sepia(18%) saturate(455%) hue-rotate(348deg) brightness(99%) contrast(87%)}
+    .logo-restaurant-restored{position:absolute;left:0;top:16%;width:42%;font-family:'Logo Script',cursive;font-size:21px;line-height:1;color:#f3e6cd;transform:rotate(-5deg);text-shadow:none}
+    @media(max-width:1250px){.logo-restaurant-restored{font-size:19px}}
+    @media(max-width:480px){.logo-restaurant-restored{font-size:clamp(12px,3.9vw,18px)}}
   </style>
 </head>
 <body>
@@ -131,7 +138,7 @@
       <a class="brand-center" href="#top" aria-label="Ресторан Дети лейтенанта Шмидта">
         <img class="logo-car" src="assets/logo-car.svg" width="307" height="130" alt="" aria-hidden="true">
         <svg class="logo-light" viewBox="0 0 440 130" aria-hidden="true"><defs><linearGradient id="headlight-beam"><stop stop-color="#fff2ce" stop-opacity=".55"/><stop offset="1" stop-color="#fff2ce" stop-opacity="0"/></linearGradient></defs><g class="light-rays" fill="url(#headlight-beam)"><path d="M169 69 L430 18 L430 85 Z"/><path d="M172 83 L430 61 L430 127 Z"/></g><g class="headlights" fill="#fff9e4"><ellipse cx="169" cy="69" rx="2.5" ry="2"/><ellipse cx="172" cy="83" rx="2.5" ry="2"/></g></svg>
-        <img class="logo-lettering logo-wordmark" src="assets/logo-lettering.svg" width="307" height="86" alt="Ресторан Дети лейтенанта Шмидта">
+        <span class="logo-wordmark" aria-label="Ресторан Дети лейтенанта Шмидта"><img class="logo-lettering" src="assets/logo-lettering.svg" width="307" height="86" alt=""><span class="logo-restaurant-restored">ресторан</span></span>
       </a>
       <nav class="nav-left" aria-label="Навигация ресторана">
         <a href="#top">О ресторане</a><a href="#menu">Меню</a><a href="#banquets">Банкеты</a><a href="#banquets">Галерея</a>
