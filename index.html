@@ -164,8 +164,8 @@
   <div class="topbar-wrap" id="top">
     <div class="container topbar">
       <a class="brand-center" href="#top" aria-label="Ресторан Дети лейтенанта Шмидта">
-        <img class="logo-car" src="assets/logo-car-hd.png" width="2172" height="724" alt="" aria-hidden="true">
-        <span class="brand-headlight" aria-hidden="true"></span>
+        <span class="car-artwork"><img class="logo-car" src="assets/logo-car-hd.png" width="2172" height="724" alt="" aria-hidden="true"><span class="car-headlight car-headlight-left" aria-hidden="true"></span><span class="car-headlight car-headlight-right" aria-hidden="true"></span></span>
+
         <span class="logo-wordmark"><span class="wordmark-top"><span class="wordmark-restaurant">ресторан</span><span class="wordmark-children">Дети</span></span><span class="wordmark-bottom">ЛЕЙТЕНАНТА ШМИДТА</span></span>
       </a>
       <nav class="nav-left" aria-label="Навигация ресторана">
@@ -210,22 +210,12 @@
     const mobileMenu=document.querySelector('.mobile-menu');
     toggle.addEventListener('click',()=>{const open=mobileMenu.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'×':'☰'});
     mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileMenu.classList.remove('open');toggle.setAttribute('aria-expanded','false');toggle.textContent='☰'}));
-    const logo=document.querySelector('.brand-center');
-    const reduceLogoMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-    let logoScrollTimer;
-    window.addEventListener('scroll',()=>{
-      if(reduceLogoMotion.matches)return;
-      logo.classList.add('is-scrolling');
-      clearTimeout(logoScrollTimer);
-      logoScrollTimer=setTimeout(()=>logo.classList.remove('is-scrolling'),180);
-    },{passive:true});
-    reduceLogoMotion.addEventListener('change',()=>{clearTimeout(logoScrollTimer);logo.classList.remove('is-scrolling')});
-
     const masthead=document.querySelector('.topbar-wrap');
     function updateMasthead(){masthead.classList.toggle('is-scrolled',window.scrollY>16)}
     window.addEventListener('scroll',updateMasthead,{passive:true});updateMasthead();
   </script>
 
 <script src="assets/menu-data.js"></script><script src="assets/menu.js"></script>
+<script src="assets/brand.js"></script>
 </body>
 </html>
